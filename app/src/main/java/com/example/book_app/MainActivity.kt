@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import com.example.book_app.bessellerResult.BesselerResult
 import com.example.book_app.categoryApi.CategoryResult
 import com.example.book_app.databinding.ActivityMainBinding
@@ -22,7 +23,7 @@ import kotlin.math.log
 
 class MainActivity : AppCompatActivity(), MainView{
     lateinit var binding: ActivityMainBinding
-    var presenter : ScreenPresenter = ScreenPresnterImpl(this,MainRepositoryImpl())
+    var presenter : ScreenPresenter = ScreenPresnterImpl(this,MainRepositoryImpl(this,this,this))
     private val TAG = "MainActivity"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +31,10 @@ class MainActivity : AppCompatActivity(), MainView{
         setContentView(binding.root)
 
 
+
         binding.addd.setOnClickListener {
-            clickButton()
+          clickButton()
+
         }
 
 
@@ -40,10 +43,16 @@ class MainActivity : AppCompatActivity(), MainView{
     }
 
     override fun clickButton() {
-        presenter.getData()
+        presenter.getCategoryData("Science")
     }
 
     override fun updateData(word: String) {
-        Toast.makeText(this, word, Toast.LENGTH_SHORT).show()
+
     }
+
+    override fun updateCatData(categ: String) {
+        binding.category.text = categ
+    }
+
+
 }

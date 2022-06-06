@@ -13,5 +13,15 @@ class ScreenPresnterImpl(var mainView: MainView, var repository: MainRepository)
 
     }
 
+    override fun getCategoryData(cat: String) {
+                val loadCategData = repository.loadCategData(cat)
+        mainView.updateCatData(loadCategData)
+    }
+
+//    override fun getCategoryData() {
+//        val loadCategData = repository.loadCategData()
+//        mainView.updateCatData(loadCategData)
+//    }
+
 
 }

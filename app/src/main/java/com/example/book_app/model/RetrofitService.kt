@@ -38,9 +38,9 @@ interface RetrofitService {
 
     // search besselser books
     @GET("lists/best-sellers/history.json")
-    fun getDataByBestseller(
+    suspend fun getDataByBestseller(
         @Query("api-key") apikey:String
-    ): Call<BesselerResult>
+    ): BesselerResult
 
 
 }

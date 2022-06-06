@@ -4,4 +4,6 @@ interface ScreenPresenter {
 
     fun getData()
 
+    fun getCategoryData(cat:String)
+
 }

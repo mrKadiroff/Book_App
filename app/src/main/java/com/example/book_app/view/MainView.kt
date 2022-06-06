@@ -6,4 +6,6 @@ interface MainView {
 
     fun updateData(word:String)
 
+    fun updateCatData(categ:String)
+
 }
