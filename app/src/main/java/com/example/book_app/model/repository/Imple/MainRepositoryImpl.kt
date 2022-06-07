@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.example.book_app.bessellerResult.BesselerResult
 import com.example.book_app.categoryApi.CategoryResult
 import com.example.book_app.model.RetrofitClient
+import com.example.book_app.model.viewmodel.Resource
 import com.example.book_app.model.viewmodel.Status
 import com.example.book_app.model.viewmodel.UserViewModel
 import com.example.book_app.repository.MainRepository
@@ -24,7 +26,7 @@ class MainRepositoryImpl(var viewModelStoreOwner: ViewModelStoreOwner,var lifecy
     lateinit var userViewModel: UserViewModel
     private val TAG = "MainRepositoryImpl"
     private var word:String= ""
-    private var categoryy:String= ""
+    private var category:CategoryResult?=null
 
     //bestseller
     override fun loadData(): String {
@@ -45,6 +47,7 @@ class MainRepositoryImpl(var viewModelStoreOwner: ViewModelStoreOwner,var lifecy
                         val copyright = it.data!!.copyright
                         word = copyright
 
+
                     }
                 }}
         }
@@ -53,9 +56,9 @@ class MainRepositoryImpl(var viewModelStoreOwner: ViewModelStoreOwner,var lifecy
         return word
     }
 
-    override fun loadCategData(cat: String): String {
+    override fun loadCategData(cat: String): CategoryResult {
 
-                RetrofitClient.apiService().getDataByCategory(cat,"beKOJAq1sjYHYp2raykgNMvjzHt4npjr").enqueue(object:
+        RetrofitClient.apiService().getDataByCategory(cat,"beKOJAq1sjYHYp2raykgNMvjzHt4npjr").enqueue(object:
             Callback<CategoryResult> {
             override fun onResponse(
                 call: Call<CategoryResult>,
@@ -64,8 +67,8 @@ class MainRepositoryImpl(var viewModelStoreOwner: ViewModelStoreOwner,var lifecy
                 if (response.isSuccessful){
                     val body = response.body()
                     Log.d(TAG, "onResponse: $body")
-                    val copyright = body!!.copyright
-                    categoryy = copyright
+                    category = body
+
                 }
             }
 
@@ -77,36 +80,10 @@ class MainRepositoryImpl(var viewModelStoreOwner: ViewModelStoreOwner,var lifecy
         })
 
 
-        return categoryy
+        return category!!
 
     }
 
-//    override fun loadCategData(): String {
-//
-//        RetrofitClient.apiService().getDataByCategory("Science","beKOJAq1sjYHYp2raykgNMvjzHt4npjr").enqueue(object:
-//            Callback<CategoryResult> {
-//            override fun onResponse(
-//                call: Call<CategoryResult>,
-//                response: Response<CategoryResult>
-//            ) {
-//                if (response.isSuccessful){
-//                    val body = response.body()
-//                    Log.d(TAG, "onResponse: $body")
-//                    val copyright = body!!.copyright
-//                    categoryy = copyright
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<CategoryResult>, t: Throwable) {
-//                Log.d(TAG, "onFailure: ${t.message}")
-//            }
-//
-//
-//        })
-//
-//
-//        return categoryy
-//    }
 
 
 }

@@ -2,6 +2,8 @@ package com.example.book_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
@@ -47,12 +49,21 @@ class MainActivity : AppCompatActivity(), MainView{
     }
 
     override fun updateData(word: String) {
+            binding.category.text = word
+
+
 
     }
 
-    override fun updateCatData(categ: String) {
-        binding.category.text = categ
+    override fun updateCatData(categ: CategoryResult) {
+
+        Toast.makeText(this, categ.copyright, Toast.LENGTH_SHORT).show()
+
     }
+
+//    override fun updateCatData(categ: String) {
+//        binding.category.text = categ
+//    }
 
 
 }
